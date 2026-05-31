@@ -15,6 +15,10 @@ dotenv.config({path:'./.env'}); // Load .env file
    const fullName = process.env.FULL_NAME as string;
 
 test('TC001-Register User | Register User Test', async ({page}) => {
+    //Copilot recommend to add this line to handle uncaught exceptions, when code in remote git, error message was caught at time of testing by github.
+    if (!baseURL) {
+        throw new Error('base_URL environment variable is not set in .env file');
+    }
     //Navigate to url 'http://automationexercise.com'
     await page.goto(baseURL);
     //Wait until page finish request
