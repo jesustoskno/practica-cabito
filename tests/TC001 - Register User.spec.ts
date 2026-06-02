@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test';
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
-import {RegisterUserPage} from '../pages/RegisterPage';
+import {RegisterPage} from '../pages/RegisterPage';
 import path from 'path';
 
 dotenv.config({path:'./.env'}); // Load .env file
@@ -14,7 +14,7 @@ dotenv.config({path:'./.env'}); // Load .env file
 
 test('TC001 | Register User Test', async ({page}) => {
 
-    const registerUserSpec = new RegisterUserPage (page);
+    const registerUserSpec = new RegisterPage (page);
 
     await page.goto(baseURL);
     //Verify that home page is visible successfully

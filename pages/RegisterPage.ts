@@ -1,7 +1,7 @@
 import {Page} from "@playwright/test";
-import {RegisterUserPageLocators} from "../maps/RegisterMap";
+import {RegisterMap} from "../maps/RegisterMap";
 
-export class RegisterUserPage extends RegisterUserPageLocators{
+export class RegisterPage extends RegisterMap{
     constructor(page: Page){
         super(page);
     }

@@ -1,6 +1,6 @@
 import {type Page,type Locator} from "@playwright/test";
 //const test = (page : Page) => {return page.getByText('Signup / Login');};
-export class RegisterUserPageLocators {
+export class RegisterMap {
     readonly page: Page;
     //General locators
     readonly signupLoginButton : Locator;
