@@ -7,7 +7,6 @@ import path from 'path';
 dotenv.config({path:'./.env'}); // Load .env file
    const email = process.env.EMAIL as string;
    const password = process.env.PASSWORD as string;
-   //const short_password = process.env.SHORT_PASSWORD as string;
    const baseURL = process.env.base_URL as string;
    const firstName = process.env.FIRST_NAME as string;
    const lastName = process.env.LAST_NAME as string;
