@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test';
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
-import {registerUserPage,expected_assertions} from '../pages/RegisterPage';
+import {RegisterUserPage} from '../pages/register.page';
 import path from 'path';
 
 dotenv.config({path:'./.env'}); // Load .env file
@@ -13,36 +13,35 @@ dotenv.config({path:'./.env'}); // Load .env file
    const lastName = process.env.LAST_NAME as string;
    const fullName = process.env.FULL_NAME as string;
 
-test('TC001-Register User | Register User Test', async ({page}) => {
+test('TC001 | Register User Test', async ({page}) => {
 
-    const registerUserSpec = new registerUserPage (page);
-    const expected_assertionsSpec = new expected_assertions(page);
+    const registerUserSpec = new RegisterUserPage (page);
 
     await page.goto(baseURL);
     //Verify that home page is visible successfully
-    await expected_assertionsSpec.homePage_Visible()
+    await expect(page.getByText('Home'),"Verify that home page is visible successfully").toBeVisible();
     //Click on 'Signup / Login' button
-    await registerUserSpec.click_signup_login_Button()
+    await registerUserSpec.clickSignupLoginButton()
     //Verify 'New User Signup!' is visible
-    await expected_assertionsSpec.new_user_Signup()
+    await expect(page.getByText('New User Signup!'),"New User Signup, needs to be visible").toBeVisible();
     //Enter name and email address
     await registerUserSpec.registerAccount({
         fullName, 
         email
     });
     //Verify that 'Enter Account Information!' is visible
-    await expected_assertionsSpec.enter_account_Information()
+    await expect(page.getByText('Enter Account Information'),"Enter Account Information, needs to be visible").toBeVisible();
     //Fill details: Title, Name, Email, Password, Date of birth
     await registerUserSpec.fillAccountInformation({
-            Title: 'Mr', 
-            Password: password, 
+            title: 'Mr', 
+            password: password, 
             "Date of birth": ['1', 'January', '2000']
         });
 
     //Select checkbox 'Sign up for our newsletter!'
-    await registerUserSpec.click_signup_newsletter_CheckBox()
+    await registerUserSpec.clickSignupNewsletterCheckBox()
     //Select checkbox 'Receive special offers from our partners!'
-    await registerUserSpec.click_special_offers_CheckBox()
+    await registerUserSpec.clickSpecialOffersCheckBox()
     //Fill details: First name, Last name, Company, Address, Address2, Country, State, City, Zipcode, Mobile Number
     await registerUserSpec.fillAddressInformation({
         firstName : firstName,
@@ -58,16 +57,16 @@ test('TC001-Register User | Register User Test', async ({page}) => {
     });
 
     //Click 'Create Account button'
-    await registerUserSpec.click_create_account_Button()
+    await registerUserSpec.clickCreateAccountButton()
     //Verify that 'ACCOUNT CREATED!' is visible
-    await expected_assertionsSpec.account_Created()
+    await expect(page.getByText('Account Created!'),"Account Created, needs to be visible").toBeVisible();
     //Click 'Continue' button
-    await registerUserSpec.click_continue_Button()
+    await registerUserSpec.clickContinueButton()
     //Verify that 'Logged in as username' is visible
-    await expected_assertionsSpec.logged_Username(fullName)
+    await expect(page.getByText(`Logged in as ${fullName}`),`Logged in as ${fullName}, needs to be visible`).toBeVisible();
     //Click 'Delete Account' button
-    await registerUserSpec.click_delete_account_Button()
+    await registerUserSpec.clickDeleteAccountButton()
     //Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-    await expected_assertionsSpec.account_Deleted()
-    await registerUserSpec.click_continue_Button()
+    await expect(page.getByText('Account Deleted!'),"Account Deleted, needs to be visible").toBeVisible();
+    await registerUserSpec.clickContinueButton()
 });
