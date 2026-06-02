@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test';
 import { defineConfig } from '@playwright/test';
 import dotenv from 'dotenv';
-import {RegisterUserPage} from '../pages/register.page';
+import {RegisterUserPage} from '../pages/RegisterPage';
 import path from 'path';
 
 dotenv.config({path:'./.env'}); // Load .env file
