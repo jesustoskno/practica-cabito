@@ -15,21 +15,20 @@ dotenv.config({path:'./.env'}); // Load .env file
 test('TC001 | Register User Test', async ({page}) => {
 
     const registerUserSpec = new RegisterPage (page);
-
     await page.goto(baseURL);
     //Verify that home page is visible successfully
-    await expect(page.getByText('Home'),"Verify that home page is visible successfully").toBeVisible();
+    await expect(registerUserSpec.expectedHomePageLocator).toBeVisible();
     //Click on 'Signup / Login' button
     await registerUserSpec.clickSignupLoginButton()
     //Verify 'New User Signup!' is visible
-    await expect(page.getByText('New User Signup!'),"New User Signup, needs to be visible").toBeVisible();
+    await expect(registerUserSpec.expectedNewUserSignupLocator).toBeVisible();
     //Enter name and email address
     await registerUserSpec.registerAccount({
         fullName, 
         email
     });
     //Verify that 'Enter Account Information!' is visible
-    await expect(page.getByText('Enter Account Information'),"Enter Account Information, needs to be visible").toBeVisible();
+    await expect(registerUserSpec.expectedEnterAccountInformationLocator).toBeVisible();
     //Fill details: Title, Name, Email, Password, Date of birth
     await registerUserSpec.fillAccountInformation({
             title: 'Mr', 
@@ -58,14 +57,14 @@ test('TC001 | Register User Test', async ({page}) => {
     //Click 'Create Account button'
     await registerUserSpec.clickCreateAccountButton()
     //Verify that 'ACCOUNT CREATED!' is visible
-    await expect(page.getByText('Account Created!'),"Account Created, needs to be visible").toBeVisible();
+    await expect(registerUserSpec.expectedAccountCreatedLocator).toBeVisible();
     //Click 'Continue' button
     await registerUserSpec.clickContinueButton()
     //Verify that 'Logged in as username' is visible
-    await expect(page.getByText(`Logged in as ${fullName}`),`Logged in as ${fullName}, needs to be visible`).toBeVisible();
+    await expect(registerUserSpec.expectedLoggedInAsUsernameLocator(fullName),`Logged in as ${fullName}, needs to be visible`).toBeVisible();
     //Click 'Delete Account' button
     await registerUserSpec.clickDeleteAccountButton()
     //Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button
-    await expect(page.getByText('Account Deleted!'),"Account Deleted, needs to be visible").toBeVisible();
+    await expect(registerUserSpec.expectedAccountDeletedLocator).toBeVisible();
     await registerUserSpec.clickContinueButton()
 });

@@ -32,6 +32,13 @@ export class RegisterMap {
     readonly addressInformationInputZipcode : Locator;
     readonly addressInformationInputMobileNumber : Locator;
 
+    //Expect Locators
+    readonly expectedHomePageLocator : Locator;
+    readonly expectedNewUserSignupLocator : Locator;
+    readonly expectedEnterAccountInformationLocator : Locator;
+    readonly expectedAccountCreatedLocator : Locator;
+    readonly expectedAccountDeletedLocator : Locator;
+
     constructor(page: Page){
         this.page = page;
         this.signupLoginButton = page.getByText('Signup / Login');
@@ -102,9 +109,23 @@ export class RegisterMap {
         this.addressInformationInputMobileNumber = page.getByRole('textbox', {
             name: 'Mobile Number *'
         });
+
+        //Expect locators
+        this.expectedHomePageLocator = page.getByText('Home'),"Verify that home page is visible successfully";
+        this.expectedNewUserSignupLocator = page.getByText('New User Signup!'),"New User Signup, needs to be visible";
+        this.expectedEnterAccountInformationLocator = page.getByText('Enter Account Information'),"Enter Account Information, needs to be visible";
+        this.expectedAccountCreatedLocator = page.getByText('Account Created!'),"Account Created, needs to be visible";
+        this.expectedAccountDeletedLocator = page.getByText('Account Deleted!'),"Account Deleted, needs to be visible";
     }
     //Methods
     public accountInformationInputTitle(Title : string) : Locator{
         return this.page.getByRole('radio', {name: new RegExp(`^${Title}\\.?$`)});
     }
+
+    //Expect Methods
+    public expectedLoggedInAsUsernameLocator(fullName : string) : Locator{
+        return this.page.getByText(`Logged in as ${fullName}`)
+    }
 }
+
+
