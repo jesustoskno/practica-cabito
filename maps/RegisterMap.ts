@@ -1,5 +1,4 @@
 import {type Page,type Locator} from "@playwright/test";
-//const test = (page : Page) => {return page.getByText('Signup / Login');};
 export class RegisterMap {
     readonly page: Page;
     //General locators
@@ -8,36 +7,34 @@ export class RegisterMap {
     readonly createAccountButton : Locator;
     readonly deleteAccountButton : Locator;
     //Signup section locators
-    readonly signupLink : Locator;
-    readonly signupInputFullName : Locator;
-    readonly signupInputEmail : Locator;
-    readonly btnCreateAccount : Locator;
-    //Account Information section locators
-    
-    readonly accountInformationInputPassword : Locator;
-    readonly accountInformationInputDobDay : Locator;
-    readonly accountInformationInputDobMonth : Locator;
-    readonly accountInformationInputDobYear : Locator;
-    readonly signupNewsletterCheckbox : Locator;
+    readonly signUpLink : Locator;
+    readonly nameInput : Locator;
+    readonly emailInput : Locator;
+    readonly signUpButton : Locator;
+    //Account Information section locators 
+    readonly passwordInput : Locator;
+    readonly dateOfBirthDaySelect : Locator;
+    readonly dateOfBirthMonthSelect : Locator;
+    readonly dateOfBirthYearSelect : Locator;
+    readonly newsletterCheckbox : Locator;
     readonly specialOffersCheckBox : Locator;
     //Address Information section locators
-    readonly addressInformationInputFirstName : Locator;
-    readonly addressInformationInputLastName : Locator;
-    readonly addressInformationInputCompany : Locator;
-    readonly addressInformationInputAddress : Locator;
-    readonly addressInformationInputAddress2 : Locator;
-    readonly addressInformationInputCountry : Locator;
-    readonly addressInformationInputState : Locator;
-    readonly addressInformationInputCity : Locator;
-    readonly addressInformationInputZipcode : Locator;
-    readonly addressInformationInputMobileNumber : Locator;
-
+    readonly firstNameInput : Locator;
+    readonly lastNameInput : Locator;
+    readonly companyInput : Locator;
+    readonly addressInput : Locator;
+    readonly address2Input : Locator;
+    readonly countryLabel : Locator;
+    readonly stateInput : Locator;
+    readonly cityInput : Locator;
+    readonly zipCodeInput : Locator;
+    readonly mobileNumberInput : Locator;
     //Expect Locators
-    readonly expectedHomePageLocator : Locator;
-    readonly expectedNewUserSignupLocator : Locator;
-    readonly expectedEnterAccountInformationLocator : Locator;
-    readonly expectedAccountCreatedLocator : Locator;
-    readonly expectedAccountDeletedLocator : Locator;
+    readonly homePageText : Locator;
+    readonly newUserSignupText : Locator;
+    readonly enterAccountInformationText : Locator;
+    readonly accountCreatedText : Locator;
+    readonly accountDeletedText : Locator;
 
     constructor(page: Page){
         this.page = page;
@@ -51,80 +48,74 @@ export class RegisterMap {
         this.deleteAccountButton = page.getByRole('link', {
             name : 'Delete Account'
         });
-
-        this.signupLink = page.getByRole('link', {
+        this.signUpLink = page.getByRole('link', {
             name : 'Sign up'
         });
-        this.signupInputFullName = page.getByRole('textbox', {
+        this.nameInput = page.getByRole('textbox', {
             name : 'Name'
         });
-        this.signupInputEmail = page.locator('form')
+        this.emailInput = page.locator('form')
             .filter({
                 hasText: 'Signup'
             })
             .getByPlaceholder('Email Address');
-        this.btnCreateAccount = page.getByRole('button', {
+        this.signUpButton = page.getByRole('button', {
             name : 'Signup'
         });
-
-        this.accountInformationInputPassword = page.getByRole('textbox', {
+        this.passwordInput = page.getByRole('textbox', {
             name: 'Password *'
         });
-        this.accountInformationInputDobDay = page.locator('select#days');
-        this.accountInformationInputDobMonth = page.locator('select#months');
-        this.accountInformationInputDobYear = page.locator('select#years');
-        this.signupNewsletterCheckbox = page.getByRole('checkbox', {
+        this.dateOfBirthDaySelect = page.locator('select#days');
+        this.dateOfBirthMonthSelect = page.locator('select#months');
+        this.dateOfBirthYearSelect = page.locator('select#years');
+        this.newsletterCheckbox = page.getByRole('checkbox', {
             name:'Sign up for our newsletter!'
         });
         this.specialOffersCheckBox = page.getByRole('checkbox', {
             name: 'Receive special offers from'
         });
-        this.addressInformationInputFirstName = page.getByRole('textbox', {
+        this.firstNameInput = page.getByRole('textbox', {
             name: 'First name *'
         });
-        this.addressInformationInputLastName = page.getByRole('textbox', {
+        this.lastNameInput = page.getByRole('textbox', {
             name: 'Last name *'
         });
-        this.addressInformationInputCompany = page.getByRole('textbox', { 
+        this.companyInput = page.getByRole('textbox', { 
             name: 'Company', exact: true 
         });
-        this.addressInformationInputAddress = page.getByRole('textbox', {
+        this.addressInput = page.getByRole('textbox', {
             name: 'Address * (Street address, P.'
         });
-        this.addressInformationInputAddress2 = page.getByRole('textbox', {
+        this.address2Input = page.getByRole('textbox', {
             name: 'Address 2'
         });
-        this.addressInformationInputCountry = page.getByLabel('Country *');
-        this.addressInformationInputState = page.getByRole('textbox', {
+        this.countryLabel = page.getByLabel('Country *');
+        this.stateInput = page.getByRole('textbox', {
             name: 'State'
         });
         //actual name in element = City * Zipcode *, that's why zipcode is having issues pointing to the right textbox using getByRole.
-        this.addressInformationInputCity = page.getByRole('textbox', {
+        this.cityInput = page.getByRole('textbox', {
             name: 'City'
         });
         // zipcode name locator was added by mistake to the city textbox, that's why when getByRole and name used pointed to city textbox, doing manual inspection noticed that if name="",exact true is used, point to zipcode since the name is empty on the form.
-        this.addressInformationInputZipcode = page.getByRole('textbox',{
-            name: '', exact: true
-        });
-        this.addressInformationInputMobileNumber = page.getByRole('textbox', {
+        this.zipCodeInput = page.getByText('Zipcode').locator("//following-sibling::input");
+        this.mobileNumberInput = page.getByRole('textbox', {
             name: 'Mobile Number *'
         });
-
         //Expect locators
-        this.expectedHomePageLocator = page.getByText('Home'),"Verify that home page is visible successfully";
-        this.expectedNewUserSignupLocator = page.getByText('New User Signup!'),"New User Signup, needs to be visible";
-        this.expectedEnterAccountInformationLocator = page.getByText('Enter Account Information'),"Enter Account Information, needs to be visible";
-        this.expectedAccountCreatedLocator = page.getByText('Account Created!'),"Account Created, needs to be visible";
-        this.expectedAccountDeletedLocator = page.getByText('Account Deleted!'),"Account Deleted, needs to be visible";
+        this.homePageText = page.getByText('Home');
+        this.newUserSignupText = page.getByText('New User Signup!');
+        this.enterAccountInformationText = page.getByText('Enter Account Information');
+        this.accountCreatedText = page.getByText('Account Created!');
+        this.accountDeletedText = page.getByText('Account Deleted!');
     }
     //Methods
-    public accountInformationInputTitle(Title : string) : Locator{
+    public titleRadio(Title : string) : Locator{
         return this.page.getByRole('radio', {name: new RegExp(`^${Title}\\.?$`)});
     }
-
     //Expect Methods
-    public expectedLoggedInAsUsernameLocator(fullName : string) : Locator{
-        return this.page.getByText(`Logged in as ${fullName}`)
+    public loggedInAsUsernameText(fullName : string) : Locator{
+        return this.page.getByText(`Logged in as ${fullName}`);
     }
 }
 
